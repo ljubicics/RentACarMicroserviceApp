@@ -1,0 +1,16 @@
+package com.example.rentacarrentservice.repository;
+
+import com.example.rentacarrentservice.domain.Review;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ReviewRepository extends JpaRepository<Review, Long> {
+    Page<Review> findAllByBusiness_Id(Long productId, Pageable pageable);
+
+    @Query(value = "select avg(businessRating) from review where business_id = ? ", nativeQuery = true)
+    String findAverageRatingByBusinessId(Long businessId);
+}
